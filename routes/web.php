@@ -23,7 +23,7 @@ Auth::routes();
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/home', [HomeController::class, 'index'])->name('home');
-Route::resource('medecins', MedecinController::class);
+Route::resource('medecins', MedecinController::class)->middleware('isadmin');
 Route::get('/allmedecins',[MedecinController::class,'allmedecin']);
 Route::get('/rechercher',[MedecinController::class,'rechercher($inputcity)']);
 Route::match(['get', 'post'], '/search', [MedecinController::class, 'search'])->name('medecins.search');
