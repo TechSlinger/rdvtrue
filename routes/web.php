@@ -31,3 +31,4 @@ Route::resource('rdv',RdvController::class);
 Route::match(['get', 'post'],'/confirm', [RdvController::class, 'confirm'])->name('confirm');
 Route::get('/rdv/create/{medecin}', [RdvController::class, 'create'])->name('rdv.create');
 Route::get('/viewconfirm', [RdvController::class, 'viewconfirm'])->name('viewconfirm');
+Route::get('/adddoctor',[MedecinController::class, 'adddoctor'])->name('adddoctor');
