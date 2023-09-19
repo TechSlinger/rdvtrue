@@ -2,21 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Medecin;
-use App\Models\Rdv;
+
+use App\Http\Controllers\Controller;
+use App\Models\Medecin; 
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Rdv;
 
 
-class MedecinController extends Controller
-{
+class MedecinController extends Controller   {
     /**
      * Display a listing of the resource.
      */
     public function index()
 {
-    $medecins = Medecin::latest()->paginate(6);
-    return view('medecins.index', compact('medecins'));
+    $medecins = Medecin::latest()->paginate(5);
+    return view('medecins.index', compact('medecins'))->with('i',(request()->input('page',1) -1)*5);
+
 }
 
 
@@ -39,7 +41,11 @@ class MedecinController extends Controller
             'phonenumber'=>'required',
             'speciality' =>'required',
         ]);
+
         $input = $request->all();
+        $input['user_id'] = Auth::user()->id;
+        $input['password'] = bcrypt($request->input('password'));
+
         if($request->hasFile('image')){
             $image=$request->file('image');
             $imageName=time() . "." . $image->getClientOriginalExtension() ;
@@ -48,7 +54,7 @@ class MedecinController extends Controller
         }
         
         Medecin::create($input);
-        return redirect()->route('medecins.index')->with('success','The medecin was added successfully');
+        return redirect()->route('medecins.index')->with('success','The doctor was added successfully');
     }
 
     /**
@@ -87,7 +93,7 @@ class MedecinController extends Controller
         }
 
         $medecin->update($input);
-        return redirect()->route('medecins.index')->with('success','The medecin was updated successfully');
+        return redirect()->route('medecins.index')->with('success','The docotr was updated successfully');
 
     }
 
@@ -97,12 +103,12 @@ class MedecinController extends Controller
     public function destroy(Medecin $medecin)
     {
         $medecin->delete();
-        return redirect()->route('medecins.index')->with('success','The medecin was deleted successfully');
+        return redirect()->route('medecins.index')->with('success','The doctor was deleted successfully');
     }
-    public function allmedecin()
+    public function doctors()
     {
         $medecins=Medecin::latest()->paginate(5);
-        return view('allmedecins', compact('medecins'));
+        return view('doctors', compact('medecins'));
     }
 
     public function search(Request $request)
@@ -110,18 +116,55 @@ class MedecinController extends Controller
         $city = $request->input('city');
         $speciality = $request->input('speciality');
     
-        // Use the city and speciality to filter the medecins
-        $medecins = Medecin::where('city', $city)
-            ->where('speciality', $speciality)
-            ->get();
+        // Use the city and/or speciality to filter the medecins
+        $medecins = Medecin::where(function ($query) use ($city, $speciality) {
+            if (!empty($city)) {
+                $query->where('city', $city);
+            }
+            if (!empty($speciality)) {
+                $query->orWhere('speciality', $speciality);
+            }
+        })->get();
     
-        return view('home', compact('medecins'));
+        if (!$medecins->isEmpty()) {
+            return view('home', compact('medecins'));
+        } else {
+            return redirect()->route('doctors')->with('message', 'No doctors found for the selected criteria.');
+        }
     }
+    
 
-    public function adddoctor(){
+    public function confirm_add(Request $request) {
+        if ($request->has('confirm')) {
+            // User confirmed, proceed to add the doctor
+            // Add your logic to add the doctor here
+    
+            // Redirect to the 'adddoctor' route after confirming
+            return redirect()->route('adddoctor');
+        }
+    
+        // Show the confirmation page
+        return view('confirmadd');
+    }
+    
+
+    Public function addoctor(){
         return view('medecins.create');
     }
-}
+
+    
+
+   
+
+
+
+   
+    
+  
+    
+    }
+
+
 
 
 

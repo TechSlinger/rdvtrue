@@ -5,30 +5,39 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Broadcast;
+use App\Models\Feedback;
+
+
 
 class HomeController extends Controller
 {
-
-   
-
    
     public function index()
     {
-        // Array of image file names
-        $images = [
-            'image1.avif',
-            'image2.avif',
-            'image3.avif',
-            'image4.avif',
-            'image5.avif',
-        ];
-
-        $medecin='medecin.png';
-
-        // Shuffle the array to get random images
-        shuffle($images);
-
-        return view('home', compact('images'));
+         return view('home');
     }
-        
+    public function submitFeedback(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'feedback' => 'required',
+        ]);
+
+        Feedback::create([
+            'name' => $request->input('name'),
+            'feedback' => $request->input('feedback'),
+        ]);
+
+        return redirect()->route('home')->with('success', 'Feedback submitted successfully!');
+    }
+
+    public function all_feedback(){
+        $feedbacks=Feedback::all();
+        return view('all_feedback',compact('feedbacks'));
+    }
+
+  
+    
 }

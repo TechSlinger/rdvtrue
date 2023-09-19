@@ -14,23 +14,23 @@
     </div>
     @endif
 
-    <form method="POST" action="{{ route('products.update', $product->id) }}" enctype="multipart/form-data">
+    <form method="POST" action="{{ route('medecins.update', $medecin->id) }}" enctype="multipart/form-data">
         @csrf
         @method('PUT')
 
         <div class="form-group">
             <label for="name">Name</label>
-            <input type="text" class="form-control" id="name" name="name" value="{{ $product->name }}">
+            <input type="text" class="form-control" id="name" name="name" value="{{ $medecin->name }}">
         </div>
 
         <div class="form-group">
             <label for="price">Price</label>
-            <input type="text" class="form-control" id="price" name="Price" value="{{ $product->price }}">
+            <input type="text" class="form-control" id="price" name="Price" value="{{ $medecin->price }}">
         </div>
 
         <div class="form-group">
             <label for="description">Description</label>
-            <textarea class="form-control" id="description" name="description">{{ $product->description }}</textarea>
+            <textarea class="form-control" id="description" name="description">{{ $medecin->description }}</textarea>
         </div>
 
         <div class="form-group">

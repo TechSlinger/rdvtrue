@@ -24,7 +24,7 @@
                             </div>
                         @endif
 
-                        <form method="POST" action="{{ route('medecins.store') }}" enctype="multipart/form-data">
+                        <form method="POST" action="{{ route('medecins.store') }}" enctype="multipart/form-data" >
                             @csrf
 
                             <div class="form-group">
@@ -46,13 +46,23 @@
                                 <textarea class="form-control" id="description" name="city" ></textarea>
                             </div>
                             <div class="form-group">
-                                <label for="description">Adresse</label>
-                                <textarea class="form-control" id="description" name="adresse" ></textarea>
+                                <label for="adresse">Adresse</label>
+                                <textarea class="form-control" id="adresse" name="adresse" ></textarea>
                             </div>
                             <div class="form-group">
-                                <label for="description">Phonenumber</label>
-                                <textarea class="form-control" id="description" name="phonenumber" ></textarea>
+                                <label for="phonenumber">Phonenumber</label>
+                                <input type="text" class="form-control" id="phonenumber" name="phonenumber" ></textarea>
                             </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" >
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="password">password</label>
+                                <input type="password" class="form-control" id="password" name="password" >
+                            </div>
+
 
                             <div classclass="form-group">
                                 <label for="image">Image</label>

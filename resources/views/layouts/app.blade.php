@@ -14,8 +14,7 @@
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
 
     <!-- Scripts -->
-    <link rel="stylesheet" href="{{ mix('css/app.css') }}" >
-    <script src="{{ mix('js/app.js') }}" defer></script>
+    <link rel="stylesheet" href="{{asset('resources/css/app.css')}}" >
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
 <body>
@@ -42,29 +41,40 @@
                         </li>
                       
                         <li class="nav-item">
-                            <a class="nav-link" href="/allmedecins">Our medecins</a>
+                            <a class="nav-link" href="{{route('doctors')}}">Our doctors</a>
                         </li>
+                        @if( !(Auth::check()) )
+
                         <li class="nav-item">
-                            <a class="nav-link" href="{{route('adddoctor')}}">You are a doctor?</a>
+                            <a class="nav-link" href="{{route('doctor.login')}}">You are a practitioner?</a>
                         </li>
+                        @endif
+                        @if( Auth::guard('medecin')->check() )
+                           <li class="nav-item">
+                            <a class="nav-link" href="{{route('medecin.logout')}}">log out</a>
+                           </li>
+                        
+                        @endif
 
                         @if(Auth::check() && Auth::user()->role === 1)
                            <li class="nav-item ">
-                           <a class="nav-link" href="/medecins">All medecins</a>
+                           <a class="nav-link" href="/medecins">All doctors</a>
                            </li>
-                    
-  
                         @endif
-                        
+                        @if(Auth::check() && Auth::user()->role === 1)
+                            <li class="nav-item ">
+                            <a class="nav-link" href="{{route('feedback')}}">Users Feedback</a>
+                            </li>
+                        @endif                        
                         <!-- Authentication Links -->
                         @guest
-                            @if (Route::has('login'))
+                            @if (Route::has('login') && !(Auth::guard('medecin')->check()))
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                                 </li>
                             @endif
 
-                            @if (Route::has('register'))
+                            @if (Route::has('register') && !(Auth::guard('medecin')->check()))
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                                 </li>
@@ -96,6 +106,69 @@
         <main class="py-4 ">
             @yield('content')
         </main>
+        <footer class=" pt-5 pb-5 text-white-50 text-md-start text-center  ">
+            <div class="container">
+              <div class="row">
+                <div class="col-md-6 col-lg-4">
+                  <div class="info">
+                    <a href="#" class="btn rounded-pill main-btn bg-info mr-3"><h3>HealthCare</h3></a>
+                    <p class="mb-5 text-black-50 ">Welcome to our health application, 
+                        you can book an appointment from your prefered doctor</p>
+                  </div>
+                  <div class="copyright text-black ">
+                    Created By<span class="copyright text-black-50"> Fatima</span>
+                    <div>&copy; 2023 - <span class="text-black-50"">app</span></div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-2">
+                 <div class="links">
+                  <div class="text-light ">
+                  <h5 class="text-black">Links</h5>
+                  <ul class="list-unstyled lh-lg">
+                    <li class="text-black-50 "><a href="/home">Home</a></li>
+                    <li class="text-black-50"><a href="#services">Our Services</a></li>
+                  </ul>
+                  </div>
+                 </div> 
+                </div>
+                <div class="col-md-6 col-lg-2">
+                  <div class="links">
+                   <div class="text-light ">
+                   <h5 class="text-black">About</h5>
+                   <ul class="list-unstyled lh-lg ">
+                     <li class="text-black-50 "><a href="/login">Sign In</a></li>
+                     <li class="text-black-50 "><a href="/allmedecins">Our doctors</a></li>
+                     <li class="text-black-50 "><a href="mailto:appointment66gld2002@gmail.com">Contact Us</a></li>
+                   </ul>
+                   </div>
+                  </div> 
+                 </div>
+                 <div class="col-md-6 col-lg-4">
+                  <div class="contact">
+                    <h5 class="text-black"> Contact Us</h5>
+                    <p class=" mb-4 mt-4 text-black-50"> Get in touch with us via mail .We are waiting for
+                       your message</p>
+                    <a href="#" class="btn rounded-pill main-btn bg-info text-black">appointment66gld2002@gmail.com</a>
+                  <ul class="list-unstyled d-flex mt-3 gap-3 ">
+                   <li> <a class="d-block text-light" href="#">
+                    <i class="fa-brands fa-facebook facebook"></i>
+                   </a></li>
+                   <li> <a class="d-block text-light" href="#">
+                    <i class="fa-brands fa-instagram instagram"></i>
+                   </a></li>
+                   <li><a class="d-block text-light" href="#">
+                    <i class="fa-brands fa-linkedin linkedin"></i>
+                   </a></li>
+                   <li><a class="d-block text-light" href="#">
+                    <i class="fa-brands fa-youtube youtub"></i>
+                   </a></li>
+                  </ul> 
+                  </div>
+                 </div>
+              </div>
+            </div>
+        </footer>
+        
     </div>
 </body>
 </html>

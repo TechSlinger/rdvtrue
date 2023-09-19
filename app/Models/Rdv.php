@@ -10,12 +10,11 @@ class Rdv extends Model
         'appointment_time',
         'user_id',
         'medecin_id',
-        'confirmed',
+        'phonenumber',
+        'name',
     ];
 
-    protected $casts = [
-        'confirmed' => 'boolean',
-    ];
+  
 
     // Define the relationship with the User model (assuming the appointment belongs to a user)
     public function user()

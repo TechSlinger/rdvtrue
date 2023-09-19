@@ -8,12 +8,12 @@
     </div>
     @endif
     <div>
-      <a  class="btn btn-primary mb-3 mt-2" href="{{route('medecins.create')}}" >Add new Medecin</a>
+      <a  class="btn btn-primary mb-3 mt-2" href="{{route('medecins.create')}}" >Add new Doctor</a>
     </div>
 
     <div class="table-responsive">
         <table class="table table-striped table-hover table-borderless table-primary align-middle">
-            <caption>All medecins</caption>
+            <caption>All doctors</caption>
             <thead class="table-light">
                 <tr>
                     <th>id</th>
@@ -33,11 +33,13 @@
                     <td>{{ $medecin->id }}</td>
                     <td>{{ $medecin->name }}</td>
                     <td>
-                        @if ($medecin->image)
-                            <img src="{{ asset('storage/app/public/images/' . $medecin->image) }}" alt="Product Image" style="width: 100px;">
-                        @else
-                            <div>R</div>
-                        @endif
+                        <div class="col-md-2 medecin-avatar">
+                            @if ($medecin->image)
+                                <img src="{{ asset('storage/images/' . $medecin->image) }}" alt="{{ $medecin->name }}" class="img-fluid rounded-circle">
+                            @else
+                                <div class="avatar-circle">{{ strtoupper(substr($medecin->name, 0, 1)) }}</div>
+                            @endif
+                        </div>
                     </td>
                     <td>{{ $medecin->speciality }}</td>
                     <td>{{ $medecin->city }}</td>
